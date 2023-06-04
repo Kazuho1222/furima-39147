@@ -14,7 +14,8 @@
 ### Association
 
 - has_many :items
-- has_one :shipping_address
+- has_many :orders
+- has_many :addresses
 
 ## items テーブル
 
@@ -28,14 +29,26 @@
 |state        |string    |null: false                   |
 |shipping_date|string    |null: false                   |
 |price        |integer   |null: false                   |
-|seller       |references|null: false, foreign_key: true|
+|user         |references|null: false, foreign_key: true|
 
 ### Association
 
 - belongs_to :user
-- has_one :shipping_address
+- has_and_belongs_to_many :orders
 
-## shipping_addresses テーブル
+## orders テーブル
+
+|Column |Type      |Options                       |
+|-------|----------|------------------------------|
+|user   |references|null: false, foreign_key: true|
+|item   |references|null: false, foreign_key: true|
+
+### Association
+
+- belongs_to :user
+- has_and_belongs_to_many :items
+
+## addresses テーブル
 
 |Column          |Type      |Options                       |
 |----------------|----------|------------------------------|
@@ -50,4 +63,3 @@
 ### Association
 
 - belongs_to :user
-- belongs_to :item
