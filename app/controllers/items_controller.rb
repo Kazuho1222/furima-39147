@@ -26,7 +26,7 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     return if current_user == @item.user
 
-    redirect_to action: :index
+    redirect_to user_session_path
   end
 
   def update
