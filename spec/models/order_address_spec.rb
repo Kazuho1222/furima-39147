@@ -4,13 +4,16 @@ RSpec.describe OrderAddress, type: :model do
   before do
     user = FactoryBot.create(:user)
     item = FactoryBot.create(:item, user_id: user.id)
-    order = FactoryBot.create(:order, user_id: user.id, item_id: item.id)
-    @order_address = FactoryBot.build(:order_address, user_id: user.id, item_id: item.id, order_id: order.id)
+    @order_address = FactoryBot.build(:order_address, user_id: user.id, item_id: item.id)
   end
 
   describe '商品購入' do
     context '商品購入できる場合' do
       it '必要事項を全て過不足なく入力すると購入できる' do
+        expect(@order_address).to be_valid
+      end
+      it '建物名以外、必要事項を全て過不足なく入力すると購入できる' do
+        @order_address.building_name = ''
         expect(@order_address).to be_valid
       end
     end
@@ -81,7 +84,7 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Item can't be blank")
       end
-      it 'tokenが空では登録できないこと' do
+      it 'tokenが空では購入できない' do
         @order_address.token = nil
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Token can't be blank")
